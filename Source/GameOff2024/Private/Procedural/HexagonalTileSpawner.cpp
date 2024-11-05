@@ -39,7 +39,7 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 	}
 
 	int TotalTiles{ Rows * Columns };
-	if (Tiles.Num() != TotalTiles)
+	if (Tiles.Num() > TotalTiles)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("The grid of hexagonal tiles was not spawned due to incorrect parameters. Expected %d tiles, but got %d."), TotalTiles, Tiles.Num());
 		return;
@@ -52,18 +52,13 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 	{
 		FTileContents Contents{ Tiles[TileIndex] };
 		UClass* TileClass = TileClassRefMap[Contents.TileBase];
-		float RowsVerticalOffset{TileHeight / 2};
-
-		UE_LOG(LogTemp, Warning, TEXT("ROW: %d"), Row);
+		float RowsVerticalOffset{TileHeight * Row};
 
 		for (int Column = 0; Column < Columns; Column++)
 		{
 			float HorizontalOffset{(float(StartLocation.Y) + BaseHorizontalOffset) * Column};
-			float VerticalOffset = Column % 2 == 0 ? 0.0f : RowsVerticalOffset;
+			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
 			const FVector SpawnLocation(VerticalOffset, HorizontalOffset, 0);
-
-			UE_LOG(LogTemp, Warning, TEXT("COLUMN: %d. HorizOffset: %f. VertOffset: %f."), Column, HorizontalOffset, VerticalOffset);
-
 
 			WorldRef->SpawnActor(TileClass, &SpawnLocation, &SpawnRotation);
 
