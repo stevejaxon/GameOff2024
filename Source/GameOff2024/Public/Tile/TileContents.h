@@ -4,15 +4,16 @@
 #include "Tile/ETileType.h"
 #include "Tile/ETileModifier.h"
 
+#include "TileContents.generated.h"
 /**
  * 
  */
-struct GAMEOFF2024_API TileContents
+USTRUCT(BlueprintType)
+struct GAMEOFF2024_API FTileContents
 {
 public:
-	const UETileType TileBase;
-	const TArray<UETileModifier> TileModifiers;
-	
-	TileContents(UETileType _TileBase, TArray<UETileModifier> _TileModifiers) : TileBase(_TileBase), TileModifiers(_TileModifiers) {};
-	~TileContents();
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) UETileType TileBase;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) TArray<UETileModifier> TileModifiers;
 };

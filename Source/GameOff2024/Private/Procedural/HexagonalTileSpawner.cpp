@@ -30,7 +30,7 @@ void AHexagonalTileSpawner::Tick(float DeltaTime)
 
 }
 
-void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const TArray<TileContents> Tiles)
+void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const TArray<FTileContents> Tiles)
 {
 	if (Rows <= 0 || Columns <= 0)
 	{
@@ -50,7 +50,7 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 
 	for (int Row = 0; Row < Rows; Row++)
 	{
-		TileContents Contents{ Tiles[TileIndex] };
+		FTileContents Contents{ Tiles[TileIndex] };
 		UClass* TileClass = TileClassRefMap[Contents.TileBase];
 		float RowsVerticalOffset{TileHeight * Row};
 

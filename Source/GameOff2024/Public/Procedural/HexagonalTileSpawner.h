@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "math.h"
 #include "Procedural/TileSpawner.h"
+#include "Tile/TileContents.h"
 #include "Tile/ETileType.h"
 #include "Tile/HexagonalTile.h"
 
@@ -39,5 +40,5 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SpawnGrid(int Rows, int Columns, TArray<TileContents> Tiles) override;
+	UFUNCTION(BlueprintCallable)  virtual void SpawnGrid(int Rows, int Columns, TArray<FTileContents> Tiles) override;
 };
