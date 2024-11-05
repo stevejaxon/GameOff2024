@@ -14,8 +14,8 @@ void AHexagonalTileSpawner::SetTileLength(float Amount)
 	TileLength = Amount;
 	TileWidth = Amount * 2;
 	TileHeight = FMath::Sqrt(3.0f) * Amount;
-	BaseVerticalOffset = 0.75f * TileWidth;
-	BaseHorizontalOffset = TileHeight / 2;
+	BaseVerticalOffset = TileHeight / 2;
+	BaseHorizontalOffset = 0.75f * TileWidth;
 }
 
 void AHexagonalTileSpawner::BeginPlay()
@@ -52,13 +52,18 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 	{
 		FTileContents Contents{ Tiles[TileIndex] };
 		UClass* TileClass = TileClassRefMap[Contents.TileBase];
-		float RowsVerticalOffset{TileHeight * Row};
+		float RowsVerticalOffset{TileHeight / 2};
+
+		UE_LOG(LogTemp, Warning, TEXT("ROW: %d"), Row);
 
 		for (int Column = 0; Column < Columns; Column++)
 		{
 			float HorizontalOffset{(float(StartLocation.Y) + BaseHorizontalOffset) * Column};
-			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
+			float VerticalOffset = Column % 2 == 0 ? 0.0f : RowsVerticalOffset;
 			const FVector SpawnLocation(VerticalOffset, HorizontalOffset, 0);
+
+			UE_LOG(LogTemp, Warning, TEXT("COLUMN: %d. HorizOffset: %f. VertOffset: %f."), Column, HorizontalOffset, VerticalOffset);
+
 
 			WorldRef->SpawnActor(TileClass, &SpawnLocation, &SpawnRotation);
 
