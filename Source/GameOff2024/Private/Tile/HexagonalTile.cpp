@@ -10,8 +10,6 @@ const int NorthWest{ 5 };
 
 AHexagonalTile::AHexagonalTile()
 {
-	Super();
-
 	PrimaryActorTick.bCanEverTick = false;
 }
 
@@ -19,6 +17,10 @@ void AHexagonalTile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AHexagonalTile::HandleMessage()
+{
 }
 
 void AHexagonalTile::Tick(float DeltaTime)
@@ -94,5 +96,10 @@ void AHexagonalTile::PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs)
 	Neighbors.South = Cast<AHexagonalTile>(NeighborRefs[South]);
 	Neighbors.SouthWest = Cast<AHexagonalTile>(NeighborRefs[SouthWest]);
 	Neighbors.NorthWest = Cast<AHexagonalTile>(NeighborRefs[NorthWest]);
+}
+
+void AHexagonalTile::NotifyNeighbors(int Distance)
+{
+
 }
 

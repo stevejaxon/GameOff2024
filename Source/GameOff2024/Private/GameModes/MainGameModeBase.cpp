@@ -5,7 +5,11 @@ void AMainGameModeBase::InitGameState()
 	Super::InitGameState();
 
 	MainGameStateRef = Cast<AMainGameStateBase>(GameState);
-	MainGameStateRef->Initialize(8, 6);
+	if (IsValid(MainGameStateRef))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Expected Game State was not found"));
+		MainGameStateRef->Initialize(8, 6);
+	}
 }
 
 void AMainGameModeBase::StoreTileRef(ATileBase&& Tile, int Index)

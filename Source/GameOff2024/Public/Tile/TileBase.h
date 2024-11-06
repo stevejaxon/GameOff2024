@@ -20,11 +20,12 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void HandleMessage() {};
 public:	
 	virtual void Tick(float DeltaTime) override;
 
 	virtual const int NumberOfNeighbors() { return 0; };
-	virtual void NotifyNeighbors() {};
+	virtual void NotifyNeighbors(int Distance) {};
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) { return TArray<int>(); }
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) {};
 };
