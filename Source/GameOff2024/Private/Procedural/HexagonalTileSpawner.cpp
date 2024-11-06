@@ -66,6 +66,6 @@ void AHexagonalTileSpawner::SpawnGrid()
 		}
 	}
 
-	// GameModeBaseRef->TileSpawningCompleted();
+	GameModeBaseRef->TileSpawningCompleted();
 }
 

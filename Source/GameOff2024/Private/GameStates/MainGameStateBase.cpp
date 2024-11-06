@@ -23,6 +23,11 @@ void AMainGameStateBase::PopulateTilesNeighbors()
 {
 	for (ATileBase* TileRef : GridStateRefs)
 	{
+		if (!IsValid(TileRef))
+		{
+			continue;
+		}
+
 		TArray<int> NeighborIndices = TileRef->AdjacentTileIndices(TotalTiles, GridWidth);
 		TArray<ATileBase*> TilesNeighbors;
 		TilesNeighbors.Init(nullptr, TileRef->NumberOfNeighbors());
