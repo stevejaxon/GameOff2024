@@ -57,7 +57,6 @@ void AHexagonalTileSpawner::SpawnGrid()
 			AHexagonalTile* HexTileRef = Cast<AHexagonalTile>(ActorRef);
 			if (IsValid(HexTileRef))
 			{
-				UE_LOG(LogTemp, Warning, TEXT("HEX TILE REF IS VALID: %d"), TileIndex);
 				HexTileRef->TileIndex = TileIndex;
 				GameModeBaseRef->StoreTileRef(MoveTemp(*HexTileRef), TileIndex);
 			}

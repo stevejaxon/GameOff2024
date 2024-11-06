@@ -31,7 +31,8 @@ public:
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) { return TArray<int>(); }
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) {};
 
-	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorBeginOver() {};
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin() {};
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverEnd() {};
 
 	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart();
 	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd();

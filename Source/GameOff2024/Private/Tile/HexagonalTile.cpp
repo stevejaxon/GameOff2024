@@ -96,43 +96,67 @@ void AHexagonalTile::PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs)
 
 void AHexagonalTile::HandleMessage(ETileInteractionMessage Message)
 {
-	OnHighlightTileStart();
-}
-
-void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, int Distance)
-{
-	if (IsValid(Neighbors.North))
+	switch (Message)
 	{
-		Neighbors.North->HandleMessage(ETileInteractionMessage::BeginCursorOver);
-	}
-	if (IsValid(Neighbors.NorthEast))
-	{
-		Neighbors.NorthEast->HandleMessage(ETileInteractionMessage::BeginCursorOver);
-	}
-
-	if (IsValid(Neighbors.SouthEast))
-	{
-		Neighbors.SouthEast->HandleMessage(ETileInteractionMessage::BeginCursorOver);
-	}
-
-	if (IsValid(Neighbors.South))
-	{
-		Neighbors.South->HandleMessage(ETileInteractionMessage::BeginCursorOver);
-	}
-
-	if (IsValid(Neighbors.SouthWest))
-	{
-		Neighbors.SouthWest->HandleMessage(ETileInteractionMessage::BeginCursorOver);
-	}
-
-	if (IsValid(Neighbors.NorthWest))
-	{
-		Neighbors.NorthWest->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	case ETileInteractionMessage::BeginCursorOver:
+		OnHighlightTileStart();
+		break;
+	case ETileInteractionMessage::EndCursorOver:
+		OnHighlightTileEnd();
+		break;
+	case ETileInteractionMessage::RevealContents:
+		break;
+	case ETileInteractionMessage::Selected:
+		break;
+	default:
+		break;
 	}
 	
 }
 
-void AHexagonalTile::HandleTileCursorBeginOver()
+const void AHexagonalTile::SendMessageToAllNeighbors(const ETileInteractionMessage Message)
+{
+	if (IsValid(Neighbors.North))
+	{
+		Neighbors.North->HandleMessage(Message);
+	}
+	if (IsValid(Neighbors.NorthEast))
+	{
+		Neighbors.NorthEast->HandleMessage(Message);
+	}
+
+	if (IsValid(Neighbors.SouthEast))
+	{
+		Neighbors.SouthEast->HandleMessage(Message);
+	}
+
+	if (IsValid(Neighbors.South))
+	{
+		Neighbors.South->HandleMessage(Message);
+	}
+
+	if (IsValid(Neighbors.SouthWest))
+	{
+		Neighbors.SouthWest->HandleMessage(Message);
+	}
+
+	if (IsValid(Neighbors.NorthWest))
+	{
+		Neighbors.NorthWest->HandleMessage(Message);
+	}
+}
+
+void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, int Distance)
+{
+	SendMessageToAllNeighbors(Message);
+}
+
+void AHexagonalTile::HandleTileCursorOverBegin()
 {
 	NotifyNeighbors(ETileInteractionMessage::BeginCursorOver, 1);
+}
+
+void AHexagonalTile::HandleTileCursorOverEnd()
+{
+	NotifyNeighbors(ETileInteractionMessage::EndCursorOver, 1);
 }

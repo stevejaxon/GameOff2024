@@ -14,6 +14,8 @@ class GAMEOFF2024_API AHexagonalTile : public ATileBase
 private:
 	FHexagonalNeighbors Neighbors;
 
+	const void SendMessageToAllNeighbors(const ETileInteractionMessage Message);
+
 public:	
 	AHexagonalTile();
 protected:
@@ -28,5 +30,6 @@ public:
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) override;
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) override;
 
-	virtual void HandleTileCursorBeginOver() override;
+	virtual void HandleTileCursorOverBegin() override;
+	virtual void HandleTileCursorOverEnd() override;
 };
