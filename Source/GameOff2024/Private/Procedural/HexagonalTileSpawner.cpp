@@ -1,5 +1,6 @@
 #include "Procedural/HexagonalTileSpawner.h"
 #include "GameModes/MainGameModeBase.h"
+#include "Procedural/TileGridConfiguration.h"
 
 AHexagonalTileSpawner::AHexagonalTileSpawner()
 {
@@ -31,33 +32,22 @@ void AHexagonalTileSpawner::Tick(float DeltaTime)
 
 }
 
-void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const TArray<FTileContents> Tiles)
+void AHexagonalTileSpawner::SpawnGrid()
 {
-	if (Rows <= 0 || Columns <= 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("The grid of hexagonal tiles was not spawned due to incorrect parameters. Rows %d, Columns %d."), Rows, Columns);
-		return;
-	}
-
-	int TotalTiles{ Rows * Columns };
-	if (Tiles.Num() > TotalTiles)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("The grid of hexagonal tiles was not spawned due to incorrect parameters. Expected %d tiles, but got %d."), TotalTiles, Tiles.Num());
-		return;
-	}
-
 	UWorld* WorldRef{ GetWorld() };
 	AMainGameModeBase* GameModeBaseRef{ Cast<AMainGameModeBase>(WorldRef->GetAuthGameMode()) };
+	FTileGridConfiguration SpawningConfig{ GameModeBaseRef->GridSpawningConfig() };
+	TArray<FTileContents> Tiles{ *SpawningConfig.GridContents };
 
 	int TileIndex = 0;
 
-	for (int Row = 0; Row < Rows; Row++)
+	for (int Row = 0; Row < SpawningConfig.GridHeight; Row++)
 	{
 		FTileContents Contents{ Tiles[TileIndex] };
 		UClass* TileClass = TileClassRefMap[Contents.TileBase];
 		float RowsVerticalOffset{TileHeight * Row};
 
-		for (int Column = 0; Column < Columns; Column++)
+		for (int Column = 0; Column < SpawningConfig.GridWidth; Column++)
 		{
 			float HorizontalOffset{(float(StartLocation.Y) + BaseHorizontalOffset) * Column};
 			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
@@ -67,15 +57,15 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 			AHexagonalTile* HexTileRef = Cast<AHexagonalTile>(ActorRef);
 			if (IsValid(HexTileRef))
 			{
+				UE_LOG(LogTemp, Warning, TEXT("HEX TILE REF IS VALID: %d"), TileIndex);
 				HexTileRef->TileIndex = TileIndex;
+				GameModeBaseRef->StoreTileRef(MoveTemp(*HexTileRef), TileIndex);
 			}
-
-			GameModeBaseRef->StoreTileRef(MoveTemp(*HexTileRef), TileIndex);
 
 			TileIndex++;
 		}
 	}
 
-	GameModeBaseRef->TileSpawningCompleted();
+	// GameModeBaseRef->TileSpawningCompleted();
 }
 

@@ -20,5 +20,5 @@ class GAMEOFF2024_API ITileSpawner
 	GENERATED_BODY()
 
 public:
-	virtual void SpawnGrid(const int Rows, const int Columns, const TArray<FTileContents> Tiles) {};
+	virtual void SpawnGrid() {};
 };

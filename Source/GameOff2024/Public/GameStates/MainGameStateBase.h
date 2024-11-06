@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
 #include "Tile/TileBase.h"
+#include "Tile/TileContents.h"
 
 #include "MainGameStateBase.generated.h"
 
@@ -21,6 +22,8 @@ private:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) int GridWidth{ 1 };
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) int GridHeight{ 1 };
+	
+	TArray<FTileContents> GridContents;
 
 	void Initialize(int Width, int Height);
 	void AddToGridState(ATileBase&& Tile, int Index);

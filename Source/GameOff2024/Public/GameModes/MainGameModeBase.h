@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "GameStates/MainGameStateBase.h"
+#include "Procedural/TileGridConfiguration.h"
 
 #include "MainGameModeBase.generated.h"
 
@@ -23,4 +24,5 @@ public:
 
 	void StoreTileRef(ATileBase&& Tile, int Index);
 	void TileSpawningCompleted();
+	FTileGridConfiguration GridSpawningConfig();
 };

@@ -6,6 +6,8 @@ void AMainGameStateBase::Initialize(int Width, int Height)
 	GridHeight = Height;
 	TotalTiles = Width * Height;
 	GridStateRefs.SetNum(TotalTiles);
+	FTileContents DefaultTile{ UETileType::Grass };
+	GridContents.Init(DefaultTile, TotalTiles);
 }
 
 void AMainGameStateBase::AddToGridState(ATileBase&& Tile, int Index)

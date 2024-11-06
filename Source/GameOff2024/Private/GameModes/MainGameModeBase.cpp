@@ -7,7 +7,6 @@ void AMainGameModeBase::InitGameState()
 	MainGameStateRef = Cast<AMainGameStateBase>(GameState);
 	if (IsValid(MainGameStateRef))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Expected Game State was not found"));
 		MainGameStateRef->Initialize(8, 6);
 	}
 }
@@ -20,4 +19,13 @@ void AMainGameModeBase::StoreTileRef(ATileBase&& Tile, int Index)
 void AMainGameModeBase::TileSpawningCompleted()
 {
 	MainGameStateRef->PopulateTilesNeighbors();
+}
+
+FTileGridConfiguration AMainGameModeBase::GridSpawningConfig()
+{
+	FTileGridConfiguration Config;
+	Config.GridWidth = MainGameStateRef->GridWidth;
+	Config.GridHeight = MainGameStateRef->GridHeight;
+	Config.GridContents = &MainGameStateRef->GridContents;
+	return Config;
 }

@@ -40,5 +40,5 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)  virtual void SpawnGrid(int Rows, int Columns, TArray<FTileContents> Tiles) override;
+	UFUNCTION(BlueprintCallable)  virtual void SpawnGrid() override;
 };
