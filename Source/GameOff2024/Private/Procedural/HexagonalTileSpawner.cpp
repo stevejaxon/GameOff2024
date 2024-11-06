@@ -1,4 +1,5 @@
 #include "Procedural/HexagonalTileSpawner.h"
+#include "GameModes/MainGameModeBase.h"
 
 AHexagonalTileSpawner::AHexagonalTileSpawner()
 {
@@ -46,6 +47,8 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 	}
 
 	UWorld* WorldRef{ GetWorld() };
+	AMainGameModeBase* GameModeBaseRef{ Cast<AMainGameModeBase>(WorldRef->GetAuthGameMode()) };
+
 	int TileIndex = 0;
 
 	for (int Row = 0; Row < Rows; Row++)
@@ -60,10 +63,19 @@ void AHexagonalTileSpawner::SpawnGrid(const int Rows, const int Columns, const T
 			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
 			const FVector SpawnLocation(VerticalOffset, HorizontalOffset, 0);
 
-			WorldRef->SpawnActor(TileClass, &SpawnLocation, &SpawnRotation);
+			AActor* ActorRef{ WorldRef->SpawnActor(TileClass, &SpawnLocation, &SpawnRotation) };
+			AHexagonalTile* HexTileRef = Cast<AHexagonalTile>(ActorRef);
+			if (IsValid(HexTileRef))
+			{
+				HexTileRef->TileIndex = TileIndex;
+			}
+
+			GameModeBaseRef->StoreTileRef(MoveTemp(*HexTileRef), TileIndex);
 
 			TileIndex++;
 		}
 	}
+
+	GameModeBaseRef->TileSpawningCompleted();
 }
 
