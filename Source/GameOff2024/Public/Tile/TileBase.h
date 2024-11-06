@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Tile/ETileInteractionMessage.h"
+
 #include "TileBase.generated.h"
 
 UCLASS()
@@ -20,12 +22,17 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void HandleMessage() {};
+	virtual void NotifyNeighbors(ETileInteractionMessage Message, int Distance) {};
+	virtual void HandleMessage(ETileInteractionMessage Message) {};
 public:	
 	virtual void Tick(float DeltaTime) override;
 
 	virtual const int NumberOfNeighbors() { return 0; };
-	virtual void NotifyNeighbors(int Distance) {};
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) { return TArray<int>(); }
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) {};
+
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorBeginOver() {};
+
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart();
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd();
 };
