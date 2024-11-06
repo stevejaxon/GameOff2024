@@ -19,8 +19,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void HandleMessage() override;
-
+	virtual void HandleMessage(ETileInteractionMessage Message) override;
+	virtual void NotifyNeighbors(ETileInteractionMessage Message, int Distance) override;
 public:	
 	virtual void Tick(float DeltaTime) override;
 
@@ -28,5 +28,5 @@ public:
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) override;
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) override;
 
-	UFUNCTION(BlueprintCallable) virtual void NotifyNeighbors(int Distance) override;
+	virtual void HandleTileCursorBeginOver() override;
 };

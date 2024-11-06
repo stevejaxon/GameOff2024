@@ -19,10 +19,6 @@ void AHexagonalTile::BeginPlay()
 	
 }
 
-void AHexagonalTile::HandleMessage()
-{
-}
-
 void AHexagonalTile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -98,8 +94,45 @@ void AHexagonalTile::PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs)
 	Neighbors.NorthWest = Cast<AHexagonalTile>(NeighborRefs[NorthWest]);
 }
 
-void AHexagonalTile::NotifyNeighbors(int Distance)
+void AHexagonalTile::HandleMessage(ETileInteractionMessage Message)
 {
-
+	OnHighlightTileStart();
 }
 
+void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, int Distance)
+{
+	if (IsValid(Neighbors.North))
+	{
+		Neighbors.North->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+	if (IsValid(Neighbors.NorthEast))
+	{
+		Neighbors.NorthEast->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+
+	if (IsValid(Neighbors.SouthEast))
+	{
+		Neighbors.SouthEast->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+
+	if (IsValid(Neighbors.South))
+	{
+		Neighbors.South->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+
+	if (IsValid(Neighbors.SouthWest))
+	{
+		Neighbors.SouthWest->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+
+	if (IsValid(Neighbors.NorthWest))
+	{
+		Neighbors.NorthWest->HandleMessage(ETileInteractionMessage::BeginCursorOver);
+	}
+	
+}
+
+void AHexagonalTile::HandleTileCursorBeginOver()
+{
+	NotifyNeighbors(ETileInteractionMessage::BeginCursorOver, 1);
+}
