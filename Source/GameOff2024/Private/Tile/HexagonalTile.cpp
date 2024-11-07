@@ -35,45 +35,45 @@ const TArray<int> AHexagonalTile::AdjacentTileIndices(const int TotalTiles, cons
 	TArray<int> NeighborsIndices;
 	NeighborsIndices.Init(-1, 6);
 
-	int LastIndex{ TotalTiles - 1 };
 	bool bIsEven{ TileIndex % 2 == 0 };
-	bool bIsOnTopRow{ TileIndex < GridWidth };
-	bool bIsOnBottomRow{ TileIndex >= TotalTiles - GridWidth };
+	bool bIsOnTopRow{ TileIndex >= TotalTiles - GridWidth };
+	bool bIsOnBottomRow{ TileIndex < GridWidth };
 	bool bIsOnLeftHandSide{ TileIndex % GridWidth == 0 };
-	bool bIsOnRightHandSide{ TileIndex + 1 % GridWidth == 0 };
+	bool bIsOnRightHandSide{ (TileIndex + 1) % GridWidth == 0 };
+
 	if (!bIsOnTopRow)
 	{
-		int NeighborIndex = TileIndex - GridWidth;
+		int NeighborIndex = TileIndex + GridWidth;
 		NeighborsIndices.Insert(NeighborIndex, North);
 	}
 
-	if (!bIsOnTopRow || (!bIsOnRightHandSide && !bIsEven))
+	if ((!bIsOnTopRow && !bIsOnRightHandSide) || (bIsOnTopRow && !bIsOnRightHandSide && bIsEven))
 	{
-		int NeighborIndex = bIsEven ? TileIndex - (GridWidth - 1) : TileIndex + 1;
+		int NeighborIndex = bIsEven ? TileIndex + 1 : TileIndex + GridWidth + 1;
 		NeighborsIndices.Insert(NeighborIndex, NorthEast);
 	}
 
-	if (!bIsOnBottomRow || (!bIsOnRightHandSide && bIsEven))
+	if ((!bIsOnBottomRow && !bIsOnRightHandSide) || (bIsOnBottomRow && !bIsOnRightHandSide && !bIsEven))
 	{
-		int NeighborIndex = bIsEven ? TileIndex + 1 : TileIndex + GridWidth + 1;
+		int NeighborIndex = bIsEven ? TileIndex - (GridWidth - 1) : TileIndex + 1;
 		NeighborsIndices.Insert(NeighborIndex, SouthEast);
 	}
 
 	if (!bIsOnBottomRow)
 	{
-		int NeighborIndex = TileIndex + GridWidth;
+		int NeighborIndex = TileIndex - GridWidth;
 		NeighborsIndices.Insert(NeighborIndex, South);
 	}
 
-	if (!bIsOnLeftHandSide && (!bIsOnBottomRow || !bIsEven))
-	{
-		int NeighborIndex{ bIsEven ? TileIndex - 1 : TileIndex + (GridWidth - 1) };
-		NeighborsIndices.Insert(NeighborIndex, SouthEast);
-	}
-
-	if (!bIsOnLeftHandSide && (!bIsOnTopRow || !bIsEven))
+	if ((!bIsOnBottomRow && !bIsOnLeftHandSide) || (bIsOnBottomRow && !bIsOnLeftHandSide && !bIsEven))
 	{
 		int NeighborIndex{ bIsEven ? TileIndex - GridWidth - 1 : TileIndex - 1 };
+		NeighborsIndices.Insert(NeighborIndex, SouthWest);
+	}
+
+	if ((!bIsOnTopRow && !bIsOnLeftHandSide) || (bIsOnTopRow && !bIsOnLeftHandSide && bIsEven))
+	{
+		int NeighborIndex{ bIsEven ? TileIndex - 1 : TileIndex + GridWidth - 1 };
 		NeighborsIndices.Insert(NeighborIndex, NorthWest);
 	}
 
