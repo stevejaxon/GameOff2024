@@ -38,8 +38,6 @@ FPCGElementPtr UPCGFilterDataByIndexSettings::CreateElement() const
 
 bool UPCGFilterDataByIndexElement::ExecuteInternal(FPCGContext* Context) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("IN UPCGFilterDataByIndexElement"));
-
 	TRACE_CPUPROFILER_EVENT_SCOPE(UPCGFilterDataByIndexElement::ExecuteInternal);
 
 	const UPCGFilterDataByIndexSettings* Settings = Context->GetInputSettings<UPCGFilterDataByIndexSettings>();
@@ -92,8 +90,6 @@ bool UPCGFilterDataByIndexElement::ExecuteInternal(FPCGContext* Context) const
 					OutPoint = Point;
 					return true;
 			});
-
-		UE_LOG(LogTemp, Error, TEXT("UPCGFilterDataByIndexElement: Generated %d points out of %d source points"), FilteredPoints.Num(), Points.Num());
 	}
 
 	return true;
