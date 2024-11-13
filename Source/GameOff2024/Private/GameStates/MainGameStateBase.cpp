@@ -1,13 +1,12 @@
 #include "GameStates/MainGameStateBase.h"
 
-void AMainGameStateBase::Initialize(int Width, int Height)
+void AMainGameStateBase::Initialize(FTileGridConfiguration&& Config)
 {
-	GridWidth = Width;
-	GridHeight = Height;
-	TotalTiles = Width * Height;
+	LevelConfig = Config;
+	TotalTiles = Config.GridWidth * Config.GridHeight;
 	GridStateRefs.SetNum(TotalTiles);
 	FTileContents DefaultTile{ UETileType::Grassland };
-	GridContents.Init(DefaultTile, TotalTiles);
+	LevelConfig.GridContents.Init(DefaultTile, TotalTiles);
 }
 
 void AMainGameStateBase::AddToGridState(ATileBase&& Tile, int Index)
@@ -28,7 +27,7 @@ void AMainGameStateBase::PopulateTilesNeighbors()
 			continue;
 		}
 
-		TArray<int> NeighborIndices = TileRef->AdjacentTileIndices(TotalTiles, GridWidth);
+		TArray<int> NeighborIndices = TileRef->AdjacentTileIndices(TotalTiles, LevelConfig.GridWidth);
 
 		TArray<ATileBase*> TilesNeighbors;
 		TilesNeighbors.Init(nullptr, TileRef->NumberOfNeighbors());

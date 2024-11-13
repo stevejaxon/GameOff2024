@@ -16,6 +16,9 @@ class GAMEOFF2024_API UMainGameInstance : public UGameInstance
 
 	void LoadNamedLevelConfig(FName LevelName);
 public:
+	// Override `UGameInstance::Init` to initialize our custom Game Instance class
+	virtual void Init();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) FTileGridConfiguration LevelConfig;
 
 	UFUNCTION(BlueprintCallable) void LoadNextLevel(FName LevelName);

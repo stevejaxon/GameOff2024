@@ -4,6 +4,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "Tile/TileBase.h"
 #include "Tile/TileContents.h"
+#include "Procedural/TileGridConfiguration.h"
 
 #include "MainGameStateBase.generated.h"
 
@@ -20,12 +21,9 @@ private:
 	TArray<ATileBase*> GridStateRefs;
 
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) int GridWidth{ 1 };
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) int GridHeight{ 1 };
-	
-	TArray<FTileContents> GridContents;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) FTileGridConfiguration LevelConfig;
 
-	void Initialize(int Width, int Height);
+	void Initialize(FTileGridConfiguration&& Config);
 	void AddToGridState(ATileBase&& Tile, int Index);
 	void PopulateTilesNeighbors();
 };

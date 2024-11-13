@@ -36,18 +36,18 @@ void AHexagonalTileSpawner::SpawnGrid()
 {
 	UWorld* WorldRef{ GetWorld() };
 	AMainGameModeBase* GameModeBaseRef{ Cast<AMainGameModeBase>(WorldRef->GetAuthGameMode()) };
-	FTileGridConfiguration SpawningConfig{ GameModeBaseRef->GridSpawningConfig() };
-	TArray<FTileContents> Tiles{ SpawningConfig.GridContents };
+	FTileGridConfiguration* SpawningConfig{ GameModeBaseRef->GridSpawningConfig() };
+	TArray<FTileContents> Tiles{ SpawningConfig->GridContents };
 
 	int TileIndex = 0;
 
-	for (int Row = 0; Row < SpawningConfig.GridHeight; Row++)
+	for (int Row = 0; Row < SpawningConfig->GridHeight; Row++)
 	{
 		FTileContents Contents{ Tiles[TileIndex] };
 		UClass* TileClass = TileClassRefMap[Contents.TileBase];
 		float RowsVerticalOffset{TileHeight * Row};
 
-		for (int Column = 0; Column < SpawningConfig.GridWidth; Column++)
+		for (int Column = 0; Column < SpawningConfig->GridWidth; Column++)
 		{
 			float HorizontalOffset{(float(StartLocation.Y) + BaseHorizontalOffset) * Column};
 			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
