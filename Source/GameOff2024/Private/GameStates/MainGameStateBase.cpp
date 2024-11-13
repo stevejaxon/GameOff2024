@@ -5,8 +5,6 @@ void AMainGameStateBase::Initialize(FTileGridConfiguration&& Config)
 	LevelConfig = Config;
 	TotalTiles = Config.GridWidth * Config.GridHeight;
 	GridStateRefs.SetNum(TotalTiles);
-	FTileContents DefaultTile{ UETileType::Grassland };
-	LevelConfig.GridContents.Init(DefaultTile, TotalTiles);
 }
 
 void AMainGameStateBase::AddToGridState(ATileBase&& Tile, int Index)

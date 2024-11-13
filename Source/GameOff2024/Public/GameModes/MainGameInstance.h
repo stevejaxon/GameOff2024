@@ -19,7 +19,7 @@ public:
 	// Override `UGameInstance::Init` to initialize our custom Game Instance class
 	virtual void Init();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) FTileGridConfiguration LevelConfig;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite) FTileGridConfiguration LevelConfig;
 
 	UFUNCTION(BlueprintCallable) void LoadNextLevel(FName LevelName);
 };

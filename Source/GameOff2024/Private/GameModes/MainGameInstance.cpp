@@ -14,9 +14,9 @@ const FTileContents EmptySavannaTile{ UETileType::Savanna };
 const FName MainMenuName("LV_Main_Menu");
 
 const TMap<FName, FTileGridConfiguration> LevelConfigMap{
-	{MainMenuName, FTileGridConfiguration{3, 3, 1, {4}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
-	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 3, 1, {4}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
-	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 3, 2, {1,3}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
+	{MainMenuName, FTileGridConfiguration{3, 3, {4}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
+	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 3, {4}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
+	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 3, {1,3}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
 };
 
 void UMainGameInstance::Init()

@@ -43,8 +43,6 @@ void AHexagonalTileSpawner::SpawnGrid()
 
 	for (int Row = 0; Row < SpawningConfig->GridHeight; Row++)
 	{
-		FTileContents Contents{ Tiles[TileIndex] };
-		UClass* TileClass = TileClassRefMap[Contents.TileBase];
 		float RowsVerticalOffset{TileHeight * Row};
 
 		for (int Column = 0; Column < SpawningConfig->GridWidth; Column++)
@@ -53,6 +51,8 @@ void AHexagonalTileSpawner::SpawnGrid()
 			float VerticalOffset = Column % 2 == 0 ? RowsVerticalOffset : RowsVerticalOffset + (TileHeight / 2);
 			const FVector SpawnLocation(VerticalOffset, HorizontalOffset, 0);
 
+			FTileContents Contents{ Tiles[TileIndex] };
+			UClass* TileClass = TileClassRefMap[Contents.TileBase];
 			AActor* ActorRef{ WorldRef->SpawnActor(TileClass, &SpawnLocation, &SpawnRotation) };
 			AHexagonalTile* HexTileRef = Cast<AHexagonalTile>(ActorRef);
 			if (IsValid(HexTileRef))
