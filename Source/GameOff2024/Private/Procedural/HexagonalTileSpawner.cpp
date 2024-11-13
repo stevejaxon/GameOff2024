@@ -37,7 +37,7 @@ void AHexagonalTileSpawner::SpawnGrid()
 	UWorld* WorldRef{ GetWorld() };
 	AMainGameModeBase* GameModeBaseRef{ Cast<AMainGameModeBase>(WorldRef->GetAuthGameMode()) };
 	FTileGridConfiguration SpawningConfig{ GameModeBaseRef->GridSpawningConfig() };
-	TArray<FTileContents> Tiles{ *SpawningConfig.GridContents };
+	TArray<FTileContents> Tiles{ SpawningConfig.GridContents };
 
 	int TileIndex = 0;
 

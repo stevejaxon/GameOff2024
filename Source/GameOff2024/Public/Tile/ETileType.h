@@ -6,10 +6,11 @@ UENUM(BlueprintType)
 enum class UETileType : uint8
 {
 	None UMETA(DisplayName = "None"),
-	Grass UMETA(DisplayName = "Grass"),
-	Stone UMETA(DisplayName = "Stone"),
-	Dirt UMETA(DisplayName = "Dirt"),
+	Grassland UMETA(DisplayName = "Grassland"),
+	Woodland UMETA(DisplayName = "Woodland"),
+	Savanna UMETA(DisplayName = "Savanna"),
+	Mountain UMETA(DisplayName = "Mountain"),
 	Water UMETA(DisplayName = "Water"),
-	Road UMETA(DisplayName = "Road"),
-	River UMETA(DisplayName = "River")
+	City UMETA(DisplayName = "City"),
+	Suburb UMETA(DisplayName = "Suburb")
 };

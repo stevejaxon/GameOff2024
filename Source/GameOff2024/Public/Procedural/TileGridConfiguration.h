@@ -16,5 +16,7 @@ public:
 
 	int GridWidth;
 	int GridHeight;
-	TArray<FTileContents>* GridContents;
+	int GoalAmount;
+	TArray<int> GoalLocations;
+	TArray<FTileContents> GridContents;
 };

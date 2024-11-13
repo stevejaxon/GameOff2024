@@ -26,6 +26,6 @@ FTileGridConfiguration AMainGameModeBase::GridSpawningConfig()
 	FTileGridConfiguration Config;
 	Config.GridWidth = MainGameStateRef->GridWidth;
 	Config.GridHeight = MainGameStateRef->GridHeight;
-	Config.GridContents = &MainGameStateRef->GridContents;
+	Config.GridContents = MainGameStateRef->GridContents;
 	return Config;
 }
