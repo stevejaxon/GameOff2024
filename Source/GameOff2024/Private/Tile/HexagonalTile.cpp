@@ -30,52 +30,109 @@ const int AHexagonalTile::NumberOfNeighbors()
 	return NumNeighbors;
 }
 
+const int AHexagonalTile::NorthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow)
+{
+	if (bIsOnTopRow)
+	{
+		return -1;
+	}
+	return Index + GridWidth;
+}
+
+const int AHexagonalTile::NorthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnRightHandSide)
+{
+	if (bIsOnRightHandSide)
+	{
+		return -1;
+	}
+	if (bIsEvenRow)
+	{
+		return Index + 1;
+	}
+	if (bIsOnTopRow)
+	{
+		return -1;
+	}
+	return Index + GridWidth + 1;
+}
+
+const int AHexagonalTile::SouthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnRightHandSide)
+{
+	if (bIsOnRightHandSide)
+	{
+		return -1;
+	}
+	if (!bIsEvenRow)
+	{
+		return Index + 1;
+	}
+	if (bIsOnBottomRow)
+	{
+		return -1;
+	}
+	return Index - (GridWidth - 1);
+}
+
+const int AHexagonalTile::SouthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow)
+{
+	if (bIsOnBottomRow)
+	{
+		return -1;
+	}
+	return Index - GridWidth;
+}
+
+const int AHexagonalTile::SouthWesternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnLeftHandSide)
+{
+	if (bIsOnLeftHandSide)
+	{
+		return -1;
+	}
+	if (!bIsEvenRow)
+	{
+		return Index - 1;
+	}
+	if (bIsOnBottomRow)
+	{
+		return -1;
+	}
+	return Index - (GridWidth + 1);
+}
+
+const int AHexagonalTile::NorthWesternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnLeftHandSide)
+{
+	if (bIsOnLeftHandSide)
+	{
+		return -1;
+	}
+	if (bIsEvenRow)
+	{
+		return Index - 1;
+	}
+	if (bIsOnTopRow)
+	{
+		return -1;
+	}
+	return Index + (GridWidth - 1);
+}
+
 const TArray<int> AHexagonalTile::AdjacentTileIndices(const int TotalTiles, const int GridWidth)
 {
 	TArray<int> NeighborsIndices;
 	NeighborsIndices.Init(-1, 6);
 
-	bool bIsEven{ TileIndex % 2 == 0 };
+	bool bIsEvenRow{ (TileIndex % GridWidth) % 2 == 0 };
 	bool bIsOnTopRow{ TileIndex >= TotalTiles - GridWidth };
 	bool bIsOnBottomRow{ TileIndex < GridWidth };
 	bool bIsOnLeftHandSide{ TileIndex % GridWidth == 0 };
 	bool bIsOnRightHandSide{ (TileIndex + 1) % GridWidth == 0 };
 
-	if (!bIsOnTopRow)
-	{
-		int NeighborIndex = TileIndex + GridWidth;
-		NeighborsIndices.Insert(NeighborIndex, North);
-	}
-
-	if ((!bIsOnTopRow && !bIsOnRightHandSide) || (bIsOnTopRow && !bIsOnRightHandSide && bIsEven))
-	{
-		int NeighborIndex = bIsEven ? TileIndex + 1 : TileIndex + GridWidth + 1;
-		NeighborsIndices.Insert(NeighborIndex, NorthEast);
-	}
-
-	if ((!bIsOnBottomRow && !bIsOnRightHandSide) || (bIsOnBottomRow && !bIsOnRightHandSide && !bIsEven))
-	{
-		int NeighborIndex = bIsEven ? TileIndex - (GridWidth - 1) : TileIndex + 1;
-		NeighborsIndices.Insert(NeighborIndex, SouthEast);
-	}
-
-	if (!bIsOnBottomRow)
-	{
-		int NeighborIndex = TileIndex - GridWidth;
-		NeighborsIndices.Insert(NeighborIndex, South);
-	}
-
-	if ((!bIsOnBottomRow && !bIsOnLeftHandSide) || (bIsOnBottomRow && !bIsOnLeftHandSide && !bIsEven))
-	{
-		int NeighborIndex{ bIsEven ? TileIndex - GridWidth - 1 : TileIndex - 1 };
-		NeighborsIndices.Insert(NeighborIndex, SouthWest);
-	}
-
-	if ((!bIsOnTopRow && !bIsOnLeftHandSide) || (bIsOnTopRow && !bIsOnLeftHandSide && bIsEven))
-	{
-		int NeighborIndex{ bIsEven ? TileIndex - 1 : TileIndex + GridWidth - 1 };
-		NeighborsIndices.Insert(NeighborIndex, NorthWest);
-	}
+	NeighborsIndices.Insert(NorthernAdjacentTileIndex(TileIndex, GridWidth, bIsOnTopRow), North);
+	NeighborsIndices.Insert(NorthEasternAdjacentTileIndex(TileIndex, GridWidth, bIsOnTopRow, bIsEvenRow, bIsOnRightHandSide), NorthEast);
+	NeighborsIndices.Insert(SouthEasternAdjacentTileIndex(TileIndex, GridWidth, bIsOnBottomRow, bIsEvenRow, bIsOnRightHandSide), SouthEast);
+	NeighborsIndices.Insert(SouthernAdjacentTileIndex(TileIndex, GridWidth, bIsOnBottomRow), South);
+	NeighborsIndices.Insert(SouthWesternAdjacentTileIndex(TileIndex, GridWidth, bIsOnBottomRow, bIsEvenRow, bIsOnLeftHandSide), SouthWest);
+	NeighborsIndices.Insert(NorthWesternAdjacentTileIndex(TileIndex, GridWidth, bIsOnTopRow, bIsEvenRow, bIsOnLeftHandSide), NorthEast);
 
 	return NeighborsIndices;
 }
@@ -145,6 +202,8 @@ const void AHexagonalTile::SendMessageToAllNeighbors(const ETileInteractionMessa
 		Neighbors.NorthWest->HandleMessage(Message);
 	}
 }
+
+
 
 void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, int Distance)
 {

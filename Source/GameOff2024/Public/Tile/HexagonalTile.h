@@ -15,6 +15,12 @@ private:
 	FHexagonalNeighbors Neighbors;
 
 	const void SendMessageToAllNeighbors(const ETileInteractionMessage Message);
+	const int NorthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow);
+	const int NorthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);
+	const int SouthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);
+	const int SouthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow);
+	const int SouthWesternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnLeftHandSide);
+	const int NorthWesternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnLeftHandSide);
 
 public:	
 	AHexagonalTile();
