@@ -14,6 +14,6 @@ struct GAMEOFF2024_API FTileContents
 public:
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) UETileType TileBase;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) UETileType TileBase { UETileType::Grassland };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) TArray<UETileModifier> TileModifiers;
 };
