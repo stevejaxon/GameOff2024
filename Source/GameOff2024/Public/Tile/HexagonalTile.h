@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Tile/TileBase.h"
 #include "Tile/HexagonalNeighbors.h"
+#include "Tile/EHexNeighborDirection.h"
 
 #include "HexagonalTile.generated.h"
 
@@ -14,7 +15,8 @@ class GAMEOFF2024_API AHexagonalTile : public ATileBase
 private:
 	FHexagonalNeighbors Neighbors;
 
-	const void SendMessageToAllNeighbors(const ETileInteractionMessage Message);
+	const void HandleMessage(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance);
+	const void TransmitMessageInDirection(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance, AHexagonalTile* Neighbor1, AHexagonalTile* Neighbor2, AHexagonalTile* Neighbor3);
 	const int NorthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow);
 	const int NorthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);
 	const int SouthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);

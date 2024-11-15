@@ -171,43 +171,86 @@ void AHexagonalTile::HandleMessage(ETileInteractionMessage Message)
 	
 }
 
-const void AHexagonalTile::SendMessageToAllNeighbors(const ETileInteractionMessage Message)
+const void AHexagonalTile::TransmitMessageInDirection(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance, AHexagonalTile* Neighbor1, AHexagonalTile* Neighbor2, AHexagonalTile* Neighbor3)
 {
-	if (IsValid(Neighbors.North))
+	if (IsValid(Neighbor1) && !VisitedNeighbors.Contains(Neighbor1->TileIndex))
 	{
-		Neighbors.North->HandleMessage(Message);
+		Neighbor1->HandleMessage(Message, VisitedNeighbors, Direction, Distance);
 	}
-	if (IsValid(Neighbors.NorthEast))
+	if (IsValid(Neighbor2) && !VisitedNeighbors.Contains(Neighbor2->TileIndex))
 	{
-		Neighbors.NorthEast->HandleMessage(Message);
+		Neighbor2->HandleMessage(Message, VisitedNeighbors, Direction, Distance);
 	}
-
-	if (IsValid(Neighbors.SouthEast))
+	if (IsValid(Neighbor3) && !VisitedNeighbors.Contains(Neighbor3->TileIndex))
 	{
-		Neighbors.SouthEast->HandleMessage(Message);
-	}
-
-	if (IsValid(Neighbors.South))
-	{
-		Neighbors.South->HandleMessage(Message);
-	}
-
-	if (IsValid(Neighbors.SouthWest))
-	{
-		Neighbors.SouthWest->HandleMessage(Message);
-	}
-
-	if (IsValid(Neighbors.NorthWest))
-	{
-		Neighbors.NorthWest->HandleMessage(Message);
+		Neighbor3->HandleMessage(Message, VisitedNeighbors, Direction, Distance);
 	}
 }
 
+const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance)
+{
+	HandleMessage(Message);
+	VisitedNeighbors.Add(TileIndex);
+	if (Distance <= 0)
+	{
+		return;
+	}
+	int RemainingDistance{ Distance - 1 };
+	switch (Direction)
+	{
+	case UEHexNeighborDirection::North:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.North, Neighbors.NorthEast, Neighbors.NorthWest);
+		break;
+	case UEHexNeighborDirection::NorthEast:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.NorthEast, Neighbors.SouthEast, Neighbors.North);
+		break;
+	case UEHexNeighborDirection::SouthEast:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.SouthEast, Neighbors.South, Neighbors.NorthEast);
+		break;
+	case UEHexNeighborDirection::South:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.South, Neighbors.SouthEast, Neighbors.SouthWest);
+		break;
+	case UEHexNeighborDirection::SouthWest:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.SouthWest, Neighbors.NorthWest, Neighbors.South);
+		break;
+	case UEHexNeighborDirection::NorthWest:
+		TransmitMessageInDirection(Message, VisitedNeighbors, Direction, RemainingDistance, Neighbors.NorthWest, Neighbors.North, Neighbors.SouthWest);
+		break;
+	default:
+		break;
+	}
 
+}
 
 void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, int Distance)
 {
-	SendMessageToAllNeighbors(Message);
+	TSet<int> VisitedNeighbors;
+	VisitedNeighbors.Add(TileIndex);
+	int RemainingDistance{ Distance - 1 };
+	if (IsValid(Neighbors.North))
+	{
+		Neighbors.North->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::North, RemainingDistance);
+	}
+	if (IsValid(Neighbors.NorthEast))
+	{
+		Neighbors.NorthEast->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::NorthEast, RemainingDistance);
+	}
+	if (IsValid(Neighbors.SouthEast))
+	{
+		Neighbors.SouthEast->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::SouthEast, RemainingDistance);
+	}
+	if (IsValid(Neighbors.South))
+	{
+		Neighbors.South->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::South, RemainingDistance);
+	}
+	if (IsValid(Neighbors.SouthWest))
+	{
+		Neighbors.SouthWest->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::SouthWest, RemainingDistance);
+	}
+	if (IsValid(Neighbors.NorthWest))
+	{
+		Neighbors.NorthWest->HandleMessage(Message, VisitedNeighbors, UEHexNeighborDirection::NorthWest, RemainingDistance);
+	}
 }
 
 void AHexagonalTile::HandleTileCursorOverBegin()
