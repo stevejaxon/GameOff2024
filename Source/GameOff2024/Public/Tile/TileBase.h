@@ -35,8 +35,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void NotifyNeighbors(ETileInteractionMessage Message, int Distance) {};
-	virtual void HandleMessage(ETileInteractionMessage Message) {};
+	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int Distance) {};
+	virtual const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback) {};
 
 	void LoadPCGObjectRefs();
 public:	
@@ -49,9 +49,9 @@ public:
 	UFUNCTION(BlueprintCallable) void HandlePGCGenerationCompleted();
 	UFUNCTION(BlueprintCallable) void HidePCGComponents();
 	UFUNCTION(BlueprintCallable) void ShowPCGComponents();
-	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin() {};
-	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverEnd() {};
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int NotifyDistance) {};
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverEnd(const ETileInteractionAction NotifyPattern, const int NotifyDistance) {};
 
-	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart();
-	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd();
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart(const ETileInteractionFeedback Feedback);
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd(const ETileInteractionFeedback Feedback);
 };

@@ -15,8 +15,9 @@ class GAMEOFF2024_API AHexagonalTile : public ATileBase
 private:
 	FHexagonalNeighbors Neighbors;
 
-	const void HandleMessage(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance);
-	const void TransmitMessageInDirection(const ETileInteractionMessage Message, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const int Distance, AHexagonalTile* Neighbor1, AHexagonalTile* Neighbor2, AHexagonalTile* Neighbor3);
+	const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const int Distance);
+	template<typename... Args>
+	const void TransmitMessageInDirection(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const int Distance, Args*... Neighbors);
 	const int NorthernAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow);
 	const int NorthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnTopRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);
 	const int SouthEasternAdjacentTileIndex(const int Index, const int GridWidth, const bool bIsOnBottomRow, const bool bIsEvenRow, const bool bIsOnRightHandSide);
@@ -29,8 +30,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void HandleMessage(ETileInteractionMessage Message) override;
-	virtual void NotifyNeighbors(ETileInteractionMessage Message, int Distance) override;
+	virtual const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback) override;
+	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int Distance) override;
 public:	
 	virtual void Tick(float DeltaTime) override;
 
@@ -38,6 +39,6 @@ public:
 	virtual const TArray<int> AdjacentTileIndices(const int TotalTiles, const int GridWidth) override;
 	virtual void PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs) override;
 
-	virtual void HandleTileCursorOverBegin() override;
-	virtual void HandleTileCursorOverEnd() override;
+	virtual void HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int NotifyDistance) override;
+	virtual void HandleTileCursorOverEnd(const ETileInteractionAction NotifyPattern, const int NotifyDistance) override;
 };

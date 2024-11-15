@@ -14,3 +14,18 @@ enum class ETileInteractionMessage : uint8
 	RevealContents UMETA(DisplayName = "Reveal Tile's Contents"),
 	Selected UMETA(DisplayName = "Tile Selected Event"),
 };
+
+UENUM(BlueprintType)
+enum class ETileInteractionAction : uint8
+{
+	NotifyNeighborsRadially UMETA(DisplayName = "Notify All Radially Adjacent Neighbors Action"),
+	NotifyNeighborsDirectionally UMETA(DisplayName = "Notify All Directionally Adjacent Neighbors Action"),
+};
+
+UENUM(BlueprintType)
+enum class ETileInteractionFeedback : uint8
+{
+	None UMETA(DisplayName = "No feedback"),
+	Positive UMETA(DisplayName = "Positive interaction feedback"),
+	Negative UMETA(DisplayName = "Negative interaction feedback"),
+};
