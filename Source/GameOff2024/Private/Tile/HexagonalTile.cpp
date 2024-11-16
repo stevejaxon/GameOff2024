@@ -196,22 +196,64 @@ const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, 
 	switch (Direction)
 	{
 	case UEHexNeighborDirection::North:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.North, Neighbors.NorthEast, Neighbors.NorthWest);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.North);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.North, Neighbors.NorthEast, Neighbors.NorthWest);
+		}
 		break;
 	case UEHexNeighborDirection::NorthEast:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthEast, Neighbors.SouthEast, Neighbors.North);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthEast);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthEast, Neighbors.SouthEast, Neighbors.North);
+		}
 		break;
 	case UEHexNeighborDirection::SouthEast:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthEast, Neighbors.South, Neighbors.NorthEast);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthEast);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthEast, Neighbors.South, Neighbors.NorthEast);
+		}
 		break;
 	case UEHexNeighborDirection::South:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.South, Neighbors.SouthEast, Neighbors.SouthWest);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.South);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.South, Neighbors.SouthEast, Neighbors.SouthWest);
+		}
 		break;
 	case UEHexNeighborDirection::SouthWest:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthWest, Neighbors.NorthWest, Neighbors.South);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthWest);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthWest, Neighbors.NorthWest, Neighbors.South);
+		}
 		break;
 	case UEHexNeighborDirection::NorthWest:
-		TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthWest, Neighbors.North, Neighbors.SouthWest);
+		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthWest);
+		}
+		else
+		{
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthWest, Neighbors.North, Neighbors.SouthWest);
+		}
 		break;
 	default:
 		break;

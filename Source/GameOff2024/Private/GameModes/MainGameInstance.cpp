@@ -17,7 +17,7 @@ const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 	{MainMenuName, FTileGridConfiguration{5, 5, {4}, TArray<FTileContents>{
 		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, 
 		EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile, EmptyGrasslandsTile,
-		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptySuburbTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
 		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyWaterTile, EmptyGrasslandsTile,
 		EmptyCityTile, EmptyCityTile, EmptyCityTile, EmptyWaterTile, EmptyGrasslandsTile,
 	}}},
