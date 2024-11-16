@@ -42,8 +42,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const int Distance, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
-	virtual const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
+	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const UETileType HoveredTileType, const int Distance, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
+	virtual const void HandleMessage(const ETileInteractionMessage Message, const UETileType HoveredTileType, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
 
 	void LoadPCGObjectRefs();
 public:	
