@@ -151,15 +151,15 @@ void AHexagonalTile::PopulateNeighbors(const TArray<ATileBase*>& NeighborRefs)
 	Neighbors.NorthWest = Cast<AHexagonalTile>(NeighborRefs[NorthWest]);
 }
 
-const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback)
+const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor)
 {
 	switch (Message)
 	{
 	case ETileInteractionMessage::BeginCursorOver:
-		OnHighlightTileStart(Feedback);
+		OnHighlightTileStart(TileType, Feedback, FeedbackColor);
 		break;
 	case ETileInteractionMessage::EndCursorOver:
-		OnHighlightTileEnd(Feedback);
+		OnHighlightTileEnd();
 		break;
 	case ETileInteractionMessage::RevealContents:
 		break;
@@ -172,21 +172,21 @@ const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, 
 }
 
 template<typename ...Args>
-const void AHexagonalTile::TransmitMessageInDirection(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const int Distance, Args * ...Neighbors)
+const void AHexagonalTile::TransmitMessageInDirection(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor, const int Distance, Args * ...Neighbors)
 {
 	TArray<AHexagonalTile*> NeighborsArray = TArray<AHexagonalTile*>{ Neighbors... };
 	for (AHexagonalTile* Neighbor : NeighborsArray)
 	{
 		if (IsValid(Neighbor) && !VisitedNeighbors.Contains(Neighbor->TileIndex))
 		{
-			Neighbor->HandleMessage(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, Distance);
+			Neighbor->HandleMessage(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, Distance);
 		}
 	}
 }
 
-const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const int Distance)
+const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, TSet<int>& VisitedNeighbors, const UEHexNeighborDirection Direction, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor, const int Distance)
 {
-	HandleMessage(Message, Feedback);
+	HandleMessage(Message, Feedback, FeedbackColor);
 	VisitedNeighbors.Add(TileIndex);
 	if (Distance <= 0)
 	{
@@ -198,61 +198,61 @@ const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, 
 	case UEHexNeighborDirection::North:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.North);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.North);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.North, Neighbors.NorthEast, Neighbors.NorthWest);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.North, Neighbors.NorthEast, Neighbors.NorthWest);
 		}
 		break;
 	case UEHexNeighborDirection::NorthEast:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthEast);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.NorthEast);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthEast, Neighbors.SouthEast, Neighbors.North);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.NorthEast, Neighbors.SouthEast, Neighbors.North);
 		}
 		break;
 	case UEHexNeighborDirection::SouthEast:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthEast);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.SouthEast);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthEast, Neighbors.South, Neighbors.NorthEast);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.SouthEast, Neighbors.South, Neighbors.NorthEast);
 		}
 		break;
 	case UEHexNeighborDirection::South:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.South);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.South);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.South, Neighbors.SouthEast, Neighbors.SouthWest);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.South, Neighbors.SouthEast, Neighbors.SouthWest);
 		}
 		break;
 	case UEHexNeighborDirection::SouthWest:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthWest);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.SouthWest);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.SouthWest, Neighbors.NorthWest, Neighbors.South);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.SouthWest, Neighbors.NorthWest, Neighbors.South);
 		}
 		break;
 	case UEHexNeighborDirection::NorthWest:
 		if (NotifyPattern == ETileInteractionAction::NotifyNeighborsDirectionally)
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthWest);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.NorthWest);
 		}
 		else
 		{
-			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, RemainingDistance, Neighbors.NorthWest, Neighbors.North, Neighbors.SouthWest);
+			TransmitMessageInDirection(Message, NotifyPattern, VisitedNeighbors, Direction, Feedback, FeedbackColor, RemainingDistance, Neighbors.NorthWest, Neighbors.North, Neighbors.SouthWest);
 		}
 		break;
 	default:
@@ -261,43 +261,43 @@ const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, 
 
 }
 
-const void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int Distance)
+const void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const int Distance, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor)
 {
 	TSet<int> VisitedNeighbors;
 	VisitedNeighbors.Add(TileIndex);
 	int RemainingDistance{ Distance - 1 };
 	if (IsValid(Neighbors.North))
 	{
-		Neighbors.North->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::North, Feedback, RemainingDistance);
+		Neighbors.North->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::North, Feedback, FeedbackColor, RemainingDistance);
 	}
 	if (IsValid(Neighbors.NorthEast))
 	{
-		Neighbors.NorthEast->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::NorthEast, Feedback, RemainingDistance);
+		Neighbors.NorthEast->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::NorthEast, Feedback, FeedbackColor, RemainingDistance);
 	}
 	if (IsValid(Neighbors.SouthEast))
 	{
-		Neighbors.SouthEast->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::SouthEast, Feedback, RemainingDistance);
+		Neighbors.SouthEast->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::SouthEast, Feedback, FeedbackColor, RemainingDistance);
 	}
 	if (IsValid(Neighbors.South))
 	{
-		Neighbors.South->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::South, Feedback, RemainingDistance);
+		Neighbors.South->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::South, Feedback, FeedbackColor, RemainingDistance);
 	}
 	if (IsValid(Neighbors.SouthWest))
 	{
-		Neighbors.SouthWest->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::SouthWest, Feedback, RemainingDistance);
+		Neighbors.SouthWest->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::SouthWest, Feedback, FeedbackColor, RemainingDistance);
 	}
 	if (IsValid(Neighbors.NorthWest))
 	{
-		Neighbors.NorthWest->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::NorthWest, Feedback, RemainingDistance);
+		Neighbors.NorthWest->HandleMessage(Message, NotifyPattern, VisitedNeighbors, UEHexNeighborDirection::NorthWest, Feedback, FeedbackColor, RemainingDistance);
 	}
 }
 
-void AHexagonalTile::HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int NotifyDistance)
+void AHexagonalTile::HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor, const int NotifyDistance)
 {
-	NotifyNeighbors(ETileInteractionMessage::BeginCursorOver, NotifyPattern, Feedback, NotifyDistance);
+	NotifyNeighbors(ETileInteractionMessage::BeginCursorOver, NotifyPattern, NotifyDistance, Feedback, FeedbackColor);
 }
 
 void AHexagonalTile::HandleTileCursorOverEnd(const ETileInteractionAction NotifyPattern, const int NotifyDistance)
 {
-	NotifyNeighbors(ETileInteractionMessage::EndCursorOver, NotifyPattern, ETileInteractionFeedback::None, NotifyDistance);
+	NotifyNeighbors(ETileInteractionMessage::EndCursorOver, NotifyPattern, NotifyDistance);
 }

@@ -58,6 +58,7 @@ void AHexagonalTileSpawner::SpawnGrid()
 			if (IsValid(HexTileRef))
 			{
 				HexTileRef->TileIndex = TileIndex;
+				HexTileRef->TileType = Contents.TileBase;
 				GameModeBaseRef->StoreTileRef(MoveTemp(*HexTileRef), TileIndex);
 			}
 

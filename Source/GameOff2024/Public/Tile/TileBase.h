@@ -4,6 +4,7 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/Actor.h"
 #include "Tile/ETileInteractionMessage.h"
+#include "Tile/ETileType.h"
 
 #include "TileBase.generated.h"
 
@@ -27,16 +28,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UWidgetComponent* TileSelectedWidgetComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLinearColor UXFeedbackColor;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int TileIndex;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UETileType TileType{ UETileType::Grassland };
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<UActorComponent*> PCGStaticMeshComponents;
 protected:
 	virtual void BeginPlay() override;
 
-	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int Distance) {};
-	virtual const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback) {};
+	virtual const void NotifyNeighbors(const ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const int Distance, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
+	virtual const void HandleMessage(const ETileInteractionMessage Message, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor) {};
 
 	void LoadPCGObjectRefs();
 public:	
@@ -49,9 +56,9 @@ public:
 	UFUNCTION(BlueprintCallable) void HandlePGCGenerationCompleted();
 	UFUNCTION(BlueprintCallable) void HidePCGComponents();
 	UFUNCTION(BlueprintCallable) void ShowPCGComponents();
-	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const int NotifyDistance) {};
+	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor, const int NotifyDistance) {};
 	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverEnd(const ETileInteractionAction NotifyPattern, const int NotifyDistance) {};
 
-	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart(const ETileInteractionFeedback Feedback);
-	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd(const ETileInteractionFeedback Feedback);
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileStart(const UETileType HoveredTileType, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor);
+	UFUNCTION(BlueprintImplementableEvent) void OnHighlightTileEnd();
 };
