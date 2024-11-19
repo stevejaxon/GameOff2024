@@ -15,11 +15,11 @@ const FName MainMenuName("LV_Main_Menu");
 
 const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 	{MainMenuName, FTileGridConfiguration{5, 5, {4}, TArray<FTileContents>{
-		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, 
-		EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile, EmptyGrasslandsTile,
-		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptySuburbTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
-		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyWaterTile, EmptyGrasslandsTile,
-		EmptyCityTile, EmptyCityTile, EmptyCityTile, EmptyWaterTile, EmptyGrasslandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
+		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile,
 	}}},
 	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 3, {4}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
 	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 3, {1,3}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
