@@ -25,4 +25,6 @@ public:
 	void StoreTileRef(ATileBase&& Tile, int Index);
 	void TileSpawningCompleted();
 	FTileGridConfiguration* GridSpawningConfig();
+
+	UFUNCTION(BlueprintImplementableEvent) void OnLoadNextLevel();
 };
