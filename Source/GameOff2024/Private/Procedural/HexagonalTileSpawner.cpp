@@ -37,6 +37,11 @@ void AHexagonalTileSpawner::SpawnGrid()
 	UWorld* WorldRef{ GetWorld() };
 	AMainGameModeBase* GameModeBaseRef{ Cast<AMainGameModeBase>(WorldRef->GetAuthGameMode()) };
 	FTileGridConfiguration* SpawningConfig{ GameModeBaseRef->GridSpawningConfig() };
+	if (SpawningConfig == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Unable to spawn the grid because the configuration is missing."));
+		return;
+	}
 	TArray<FTileContents> Tiles{ SpawningConfig->GridContents };
 
 	int TileIndex = 0;

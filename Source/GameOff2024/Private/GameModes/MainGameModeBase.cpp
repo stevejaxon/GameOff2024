@@ -33,5 +33,28 @@ void AMainGameModeBase::TileSpawningCompleted()
 
 FTileGridConfiguration* AMainGameModeBase::GridSpawningConfig()
 {
+	if (!IsValid(MainGameStateRef))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("The GameState reference is not valid"));
+		return nullptr;
+	}
 	return &MainGameStateRef->LevelConfig;
+}
+
+const bool AMainGameModeBase::IsGoalLocation(const int SelectedTileIndex)
+{
+	if (SelectedTileIndex < 0)
+	{
+		return false;
+	}
+	bool bFound{ false };
+	for (const int GoalLocation : MainGameStateRef->LevelConfig.GoalLocations)
+	{
+		if (GoalLocation == SelectedTileIndex)
+		{
+			bFound = true;
+			break;
+		}
+	}
+	return bFound;
 }

@@ -26,5 +26,8 @@ public:
 	void TileSpawningCompleted();
 	FTileGridConfiguration* GridSpawningConfig();
 
+	UFUNCTION(BlueprintCallable) const bool IsGoalLocation(const int SelectedTileIndex);
+
 	UFUNCTION(BlueprintImplementableEvent) void OnLoadNextLevel();
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileSelected(const int SelectedTileIndex);
 };
