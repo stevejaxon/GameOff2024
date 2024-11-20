@@ -11,8 +11,6 @@ const FTileContents EmptyCityTile{ UETileType::City };
 const FTileContents EmptySuburbTile{ UETileType::Suburb };
 const FTileContents EmptySavannaTile{ UETileType::Savanna };
 
-const FName MainMenuName("LV_Main_Menu");
-
 const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 	{MainMenuName, FTileGridConfiguration{5, 5, {4}, TArray<FTileContents>{
 		EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile,
