@@ -7,6 +7,9 @@
 
 #include "MainGameModeBase.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRevealTileContentsDispatcher, int, SelectedTileIndex);
+
 /**
  * 
  */
@@ -30,4 +33,6 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent) void OnLoadNextLevel();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileSelected(const int SelectedTileIndex);
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable) FRevealTileContentsDispatcher OnRevealTileContents;
 };
