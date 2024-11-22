@@ -32,7 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable) const bool IsGoalLocation(const int SelectedTileIndex);
 
 	UFUNCTION(BlueprintImplementableEvent) void OnLoadNextLevel();
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileSelected(const int SelectedTileIndex);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileSelected(const int SelectedTileIndex, const FVector TileLocation);
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void SelectedTilesContentsRevealed(const int SelectedTileIndex);
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable) FRevealTileContentsDispatcher OnRevealTileContents;
