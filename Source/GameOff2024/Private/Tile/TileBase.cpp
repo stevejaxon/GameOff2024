@@ -66,3 +66,27 @@ void ATileBase::ShowPCGComponents()
 		}
 	}
 }
+
+void ATileBase::DeletePCGComponentsInDigArea(const double Radius)
+{
+	FVector TileCenter{ RootComponent->GetComponentLocation() };
+	TArray<UActorComponent*> PCGComponentsToDelete;
+
+	UE_LOG(LogTemp, Warning, TEXT("TILE'S CENTER %s"), *TileCenter.ToString());
+
+	for (UActorComponent* CompRef : PCGStaticMeshComponents)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CHECKING SM %s"), *CompRef->GetFullName());
+		UHierarchicalInstancedStaticMeshComponent* HISMCRef{ Cast<UHierarchicalInstancedStaticMeshComponent>(CompRef) };
+		if (IsValid(HISMCRef))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("SM %s WAS CAST CORRECTLY AND CONTAINS %d INSTANCES"), *CompRef->GetFullName(), HISMCRef->SortedInstances.Num());
+
+			for (const int32 InstanceID : HISMCRef->GetInstancesOverlappingSphere(TileCenter, Radius))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("SM %d HAS BEEN SCHEDULED TO BE DELETED"), InstanceID);
+				HISMCRef->RemoveInstance(InstanceID);
+			}
+		}
+	}
+}

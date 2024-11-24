@@ -56,6 +56,7 @@ public:
 	UFUNCTION(BlueprintCallable) void HandlePGCGenerationCompleted();
 	UFUNCTION(BlueprintCallable) void HidePCGComponents();
 	UFUNCTION(BlueprintCallable) void ShowPCGComponents();
+	UFUNCTION(BlueprintCallable) void DeletePCGComponentsInDigArea(const double Radius);
 	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverBegin(const ETileInteractionAction NotifyPattern, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor, const int NotifyDistance) {};
 	UFUNCTION(BlueprintCallable) virtual void HandleTileCursorOverEnd(const ETileInteractionAction NotifyPattern, const int NotifyDistance) {};
 
