@@ -72,3 +72,9 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Imported Assets
+Content/Interface_And_Item_Sounds/*
+Content/Ambient_Music_v1/*
+Content/SmallSoundKit/*
+Content/Freesoundsorg/*
