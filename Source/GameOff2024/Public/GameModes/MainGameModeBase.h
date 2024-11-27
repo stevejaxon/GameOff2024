@@ -4,6 +4,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameStates/MainGameStateBase.h"
 #include "Procedural/TileGridConfiguration.h"
+#include "Tile/ETileType.h"
 
 #include "MainGameModeBase.generated.h"
 
@@ -34,6 +35,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent) void OnLoadNextLevel();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileSelected(const int SelectedTileIndex, const FVector TileLocation);
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void SelectedTilesContentsRevealed(const int SelectedTileIndex);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileHoverStart(const int HoveredTileIndex, const UETileType HoveredTileType, const FText& Heading, const FText& Contents);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void TileHoverEnd(const int HoveredTileIndex, const UETileType HoveredTileType);
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable) FRevealTileContentsDispatcher OnRevealTileContents;
 };

@@ -39,6 +39,13 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<UActorComponent*> PCGStaticMeshComponents;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText ToolTipHeading;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText ToolTipContents;
+
 protected:
 	virtual void BeginPlay() override;
 
