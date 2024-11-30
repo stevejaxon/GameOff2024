@@ -76,3 +76,13 @@ void UMainGameInstance::NextLevel()
 	}
 	UGameplayStatics::OpenLevel(this, NextLevelName, true);
 }
+
+int UMainGameInstance::GetCaloriesCollected()
+{
+	return CaloriesCollected;
+}
+
+int UMainGameInstance::GetMaxPossibleCalories()
+{
+	return MaxCalories;
+}

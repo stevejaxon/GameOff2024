@@ -9,6 +9,7 @@
 const FName MainLevelName("LV_Main");
 const FName MainMenuName("LV_Main_Menu");
 const FName IntroductionLevelName("LV_Introduction");
+const FName EndLevelName("LV_End");
 
 /**
  * 
@@ -19,7 +20,9 @@ class GAMEOFF2024_API UMainGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 	int CurrentLevel{ 0 };
-	TArray<FName> Levels{ MainMenuName, IntroductionLevelName, "LV_Tutorial_1",  "LV_Tutorial_2", "LV_Tutorial_3", MainLevelName, MainLevelName, MainLevelName};
+	int CaloriesCollected{ 0 };
+	int MaxCalories{ 1000 };
+	TArray<FName> Levels{ MainMenuName, IntroductionLevelName, "LV_Tutorial_1",  "LV_Tutorial_2", "LV_Tutorial_3", MainLevelName, MainLevelName, MainLevelName, EndLevelName};
 
 	bool LoadNamedLevelConfig(FName LevelName);
 public:
@@ -34,4 +37,7 @@ public:
 	UFUNCTION(BlueprintCallable) void LoadNextLevel(FName LevelName);
 
 	UFUNCTION(BlueprintCallable) void NextLevel();
+
+	UFUNCTION(BlueprintCallable) int GetCaloriesCollected();
+	UFUNCTION(BlueprintCallable) int GetMaxPossibleCalories();
 };
