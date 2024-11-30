@@ -263,6 +263,10 @@ const void AHexagonalTile::HandleMessage(const ETileInteractionMessage Message, 
 
 const void AHexagonalTile::NotifyNeighbors(ETileInteractionMessage Message, const ETileInteractionAction NotifyPattern, const UETileType HoveredTileType, const int Distance, const ETileInteractionFeedback Feedback, const FLinearColor FeedbackColor)
 {
+	if (Distance == 0)
+	{
+		return;
+	}
 	TSet<int> VisitedNeighbors;
 	VisitedNeighbors.Add(TileIndex);
 	int RemainingDistance{ Distance - 1 };
