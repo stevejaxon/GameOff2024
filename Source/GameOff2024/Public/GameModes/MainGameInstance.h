@@ -21,7 +21,7 @@ class GAMEOFF2024_API UMainGameInstance : public UGameInstance
 	int CurrentLevel{ 0 };
 	TArray<FName> Levels{ MainMenuName, IntroductionLevelName, "LV_Tutorial_1",  "LV_Tutorial_2", "LV_Tutorial_3", MainLevelName, MainLevelName, MainLevelName};
 
-	void LoadNamedLevelConfig(FName LevelName);
+	bool LoadNamedLevelConfig(FName LevelName);
 public:
 	// Override `UGameInstance::Init` to initialize our custom Game Instance class
 	virtual void Init();

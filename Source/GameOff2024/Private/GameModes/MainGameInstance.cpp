@@ -31,15 +31,16 @@ void UMainGameInstance::Init()
 	LoadNamedLevelConfig(MainMenuName);
 }
 
-void UMainGameInstance::LoadNamedLevelConfig(FName LevelName)
+bool UMainGameInstance::LoadNamedLevelConfig(FName LevelName)
 {
 	// Fallback to loading the main menu if an invalid level is trying to be loaded
 	if (!LevelConfigMap.Contains(LevelName))
 	{
 		LevelConfig = LevelConfigMap[MainMenuName];
-		return;
+		return false;
 	}
 	LevelConfig = LevelConfigMap[LevelName];
+	return true;
 }
 
 void UMainGameInstance::LoadNextLevel(FName LevelName)
@@ -63,7 +64,15 @@ void UMainGameInstance::NextLevel()
 		const FString NewLevelName{ FString::Printf(TEXT("%s_%d"), *MainLevelName.ToString(), NextLevel)};
 		NextLevelName = FName(*NewLevelName);
 	}
-	LoadNamedLevelConfig(NextLevelName);
-	CurrentLevel = NextLevel;
+	bool bSuccessful{ LoadNamedLevelConfig(NextLevelName) };
+	if (bSuccessful)
+	{
+		CurrentLevel = NextLevel;
+	}
+	else
+	{
+		NextLevelName = MainMenuName;
+		CurrentLevel = 0;
+	}
 	UGameplayStatics::OpenLevel(this, NextLevelName, true);
 }
