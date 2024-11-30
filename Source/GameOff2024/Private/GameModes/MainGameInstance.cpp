@@ -20,9 +20,9 @@ const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 		EmptyCityTile, EmptyCityTile, EmptyCityTile, EmptyWaterTile, EmptyGrasslandsTile,
 	}}},
 	{IntroductionLevelName, FTileGridConfiguration{1, 1, {0}, TArray<FTileContents>{}}},
-	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 3, {0,1,2,3,4,5,6,7,8}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
-	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 3, {1,3}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
-	{FName("LV_Tutorial_3"), FTileGridConfiguration{3, 3, {1,3}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyWaterTile}}},
+	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 2, {0,1,2,3,4,5}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
+	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 2, {1,3,5}, TArray<FTileContents>{EmptyWaterTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
+	{FName("LV_Tutorial_3"), FTileGridConfiguration{3, 3, {0}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWaterTile, EmptyWaterTile, EmptyMountainTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyCityTile, EmptyWaterTile}}},
 };
 
 void UMainGameInstance::Init()
