@@ -60,7 +60,7 @@ void UMainGameInstance::NextLevel()
 	if (NextLevelName.IsEqual(MainLevelName))
 	{
 		// The main level "map" is designed to be able to procedurally generate levels, but in the short term hardcode hand-design level patterns (similar to the tutorial levels) to "make it work".
-		const FString NewLevelName{ FString::Printf(TEXT("%s_%d"), *MainMenuName.ToString(), NextLevel)};
+		const FString NewLevelName{ FString::Printf(TEXT("%s_%d"), *MainLevelName.ToString(), NextLevel)};
 		NextLevelName = FName(*NewLevelName);
 	}
 	LoadNamedLevelConfig(NextLevelName);
