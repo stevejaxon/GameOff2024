@@ -37,6 +37,7 @@ void UMainGameInstance::LoadNamedLevelConfig(FName LevelName)
 	if (!LevelConfigMap.Contains(LevelName))
 	{
 		LevelConfig = LevelConfigMap[MainMenuName];
+		return;
 	}
 	LevelConfig = LevelConfigMap[LevelName];
 }

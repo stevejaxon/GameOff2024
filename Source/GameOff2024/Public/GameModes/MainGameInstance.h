@@ -6,7 +6,7 @@
 
 #include "MainGameInstance.generated.h"
 
-const FName MainLevelName("LV_Main_Menu");
+const FName MainLevelName("LV_Main");
 const FName MainMenuName("LV_Main_Menu");
 const FName IntroductionLevelName("LV_Introduction");
 
