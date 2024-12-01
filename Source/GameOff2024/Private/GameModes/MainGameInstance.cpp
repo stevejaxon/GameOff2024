@@ -10,6 +10,7 @@ const FTileContents EmptyMountainTile{ UETileType::Mountain };
 const FTileContents EmptyCityTile{ UETileType::City };
 const FTileContents EmptySuburbTile{ UETileType::Suburb };
 const FTileContents EmptySavannaTile{ UETileType::Savanna };
+const FTileContents EmptyDesertTile{ UETileType::Desert };
 
 const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 	{MainMenuName, FTileGridConfiguration{5, 5, {4}, TArray<FTileContents>{
@@ -20,9 +21,24 @@ const TMap<FName, FTileGridConfiguration> LevelConfigMap{
 		EmptyCityTile, EmptyCityTile, EmptyCityTile, EmptyWaterTile, EmptyGrasslandsTile,
 	}}},
 	{IntroductionLevelName, FTileGridConfiguration{1, 1, {0}, TArray<FTileContents>{}}},
-	{FName("LV_Tutorial_1"), FTileGridConfiguration{3, 2, {0,1,2,3,4,5}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
-	{FName("LV_Tutorial_2"), FTileGridConfiguration{3, 2, {1,3,5}, TArray<FTileContents>{EmptyWaterTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
-	{FName("LV_Tutorial_3"), FTileGridConfiguration{3, 3, {0}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWaterTile, EmptyWaterTile, EmptyMountainTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyCityTile, EmptyWaterTile}}},
+	{EndLevelName, FTileGridConfiguration{1, 1, {0}, TArray<FTileContents>{}}}
+};
+
+const TMap <int, FTileGridConfiguration> TutorialConfigMap{
+	{2, FTileGridConfiguration{3, 2, {0,1,2,3,4,5}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
+	{3, FTileGridConfiguration{3, 2, {1,3,5}, TArray<FTileContents>{EmptyWaterTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyWoodlandsTile, EmptyWoodlandsTile, EmptyWoodlandsTile}}},
+	{4, FTileGridConfiguration{3, 3, {0}, TArray<FTileContents>{EmptyWoodlandsTile, EmptyWaterTile, EmptyWaterTile, EmptyMountainTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyCityTile, EmptyWaterTile}}},
+};
+
+const TMap <int, FTileGridConfiguration> MainLevelConfigMap{
+	{5, FTileGridConfiguration{3, 3, {2}, TArray<FTileContents>{EmptyGrasslandsTile, EmptyWoodlandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWoodlandsTile, EmptyWaterTile, EmptyCityTile, EmptyGrasslandsTile, EmptyGrasslandsTile}}},
+	{6, FTileGridConfiguration{3, 2, {1,5}, TArray<FTileContents>{EmptyMountainTile, EmptyMountainTile, EmptyWaterTile, EmptyDesertTile, EmptyDesertTile, EmptyMountainTile}}},
+	{7, FTileGridConfiguration{4, 3, {0,3}, TArray<FTileContents>{EmptyMountainTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyGrasslandsTile, EmptyWaterTile, EmptyWaterTile, EmptyGrasslandsTile, EmptyCityTile, EmptyWoodlandsTile, EmptyGrasslandsTile}}},
+};
+
+const TMap <FName, TMap <int, FTileGridConfiguration>> LevelNameToConfigMap{
+	{TutorialLevelName,TutorialConfigMap},
+	{MainLevelName,MainLevelConfigMap},
 };
 
 void UMainGameInstance::Init()
@@ -33,14 +49,23 @@ void UMainGameInstance::Init()
 
 bool UMainGameInstance::LoadNamedLevelConfig(FName LevelName)
 {
-	// Fallback to loading the main menu if an invalid level is trying to be loaded
-	if (!LevelConfigMap.Contains(LevelName))
+	if (LevelNameToConfigMap.Contains(LevelName))
 	{
-		LevelConfig = LevelConfigMap[MainMenuName];
-		return false;
+		if (LevelNameToConfigMap[LevelName].Contains(CurrentLevel))
+		{
+			LevelConfig = LevelNameToConfigMap[LevelName][CurrentLevel];
+			return true;
+		}
+		UE_LOG(LogTemp, Warning, TEXT("Can not load the level with name %s and config number %d, it does not exist"), *LevelName.ToString(), CurrentLevel);
 	}
-	LevelConfig = LevelConfigMap[LevelName];
-	return true;
+	else if (LevelConfigMap.Contains(LevelName))
+	{
+		LevelConfig = LevelConfigMap[LevelName];
+		return true;
+	}
+	// Fallback to loading the main menu if an invalid level is trying to be loaded
+	LevelConfig = LevelConfigMap[MainMenuName];
+	return false;
 }
 
 void UMainGameInstance::LoadNextLevel(FName LevelName)
@@ -57,23 +82,17 @@ void UMainGameInstance::NextLevel()
 		UE_LOG(LogTemp, Warning, TEXT("Can not load the level with number %d, it does not exist"), NextLevel);
 		return;
 	}
+	CurrentLevel = NextLevel;
 	FName NextLevelName{ Levels[NextLevel] };
-	if (NextLevelName.IsEqual(MainLevelName))
+	bool bConfigLoadedSuccessfully{ LoadNamedLevelConfig(NextLevelName) };
+
+	if (!bConfigLoadedSuccessfully)
 	{
-		// The main level "map" is designed to be able to procedurally generate levels, but in the short term hardcode hand-design level patterns (similar to the tutorial levels) to "make it work".
-		const FString NewLevelName{ FString::Printf(TEXT("%s_%d"), *MainLevelName.ToString(), NextLevel)};
-		NextLevelName = FName(*NewLevelName);
-	}
-	bool bSuccessful{ LoadNamedLevelConfig(NextLevelName) };
-	if (bSuccessful)
-	{
-		CurrentLevel = NextLevel;
-	}
-	else
-	{
+		LoadNamedLevelConfig(MainMenuName);
 		NextLevelName = MainMenuName;
 		CurrentLevel = 0;
 	}
+	
 	UGameplayStatics::OpenLevel(this, NextLevelName, true);
 }
 

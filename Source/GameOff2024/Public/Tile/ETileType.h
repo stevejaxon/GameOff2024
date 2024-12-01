@@ -12,5 +12,6 @@ enum class UETileType : uint8
 	Mountain UMETA(DisplayName = "Mountain"),
 	Water UMETA(DisplayName = "Water"),
 	City UMETA(DisplayName = "City"),
-	Suburb UMETA(DisplayName = "Suburb")
+	Suburb UMETA(DisplayName = "Suburb"),
+	Desert UMETA(DisplayName = "Desert")
 };

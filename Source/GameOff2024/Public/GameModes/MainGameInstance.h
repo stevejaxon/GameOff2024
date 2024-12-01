@@ -10,6 +10,7 @@ const FName MainLevelName("LV_Main");
 const FName MainMenuName("LV_Main_Menu");
 const FName IntroductionLevelName("LV_Introduction");
 const FName EndLevelName("LV_End");
+const FName TutorialLevelName("LV_Tutorial");
 
 /**
  * 
@@ -22,7 +23,7 @@ class GAMEOFF2024_API UMainGameInstance : public UGameInstance
 	int CurrentLevel{ 0 };
 	int CaloriesCollected{ 0 };
 	int MaxCalories{ 1000 };
-	TArray<FName> Levels{ MainMenuName, IntroductionLevelName, "LV_Tutorial_1",  "LV_Tutorial_2", "LV_Tutorial_3", MainLevelName, MainLevelName, MainLevelName, EndLevelName};
+	TArray<FName> Levels{ MainMenuName, IntroductionLevelName, TutorialLevelName, TutorialLevelName, TutorialLevelName, MainLevelName, MainLevelName, MainLevelName, EndLevelName };
 
 	bool LoadNamedLevelConfig(FName LevelName);
 public:
